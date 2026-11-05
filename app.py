@@ -20,11 +20,11 @@ def accueil():
 
 @app.get("/health")
 def health():
-    return jsonify(status="ok"), 200
+    return jsonify(status="ok"), 500
 
 @app.get("/version")
 def version():
-    return jsonify(version=os.environ.get("APP_VERSION", "1.0.0"))
+    return jsonify(version=os.environ.get("APP_VERSION", "1.0.1"))
 
 @app.get("/materiels")
 def materiels():
