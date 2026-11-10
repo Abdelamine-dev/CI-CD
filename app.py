@@ -20,7 +20,7 @@ def accueil():
 
 @app.get("/health")
 def health():
-    return jsonify(status="ok"), 500
+    return jsonify(status="ok"), 200
 
 @app.get("/version")
 def version():
