@@ -30,3 +30,24 @@ jobs:
 
       - name: Executer les tests
         run: python -m pytest -q
+
+      - name: Construire l'image Docker
+        run: docker build -t inventaire:ci .
+
+      - name: Verifier le conteneur
+        run: |
+          docker run -d --name inventaire-ci -p 127.0.0.1:8080:8000 inventaire:ci
+          trap 'docker rm -f inventaire-ci >/dev/null' EXIT
+
+          for tentative in {1..10}; do
+            statut=$(curl -s --max-time 2 -o /dev/null -w '%{http_code}' \
+              http://127.0.0.1:8080/health) || statut=000
+            if [ "$statut" = "200" ]; then
+              echo "Le conteneur repond avec HTTP 200"
+              exit 0
+            fi
+            sleep 2
+          done
+
+          docker logs inventaire-ci
+          exit 1
