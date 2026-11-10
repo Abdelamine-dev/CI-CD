@@ -24,7 +24,7 @@ def health():
 
 @app.get("/version")
 def version():
-    return jsonify(version=os.environ.get("APP_VERSION", "1.0.0"))
+    return jsonify(version=os.environ.get("APP_VERSION", "1.0.1"))
 
 @app.get("/materiels")
 def materiels():
